@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import axios from "axios";
 import { ConvertLinkToShort } from "./modules/convert-link-to-short";
