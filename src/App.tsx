@@ -17,7 +17,6 @@ function App() {
       <Router>
         <Layout>
           <Routes>
-            {/* Public Routes */}
             <Route
               path="/test-assignment-fe"
               element={<ConvertLinkToShort />}
@@ -31,7 +30,6 @@ function App() {
               element={<SetPassword />}
             />
 
-            {/* Protected Routes */}
             <Route
               path="/test-assignment-fe/app/dashboard"
               element={<Dashboard />}
