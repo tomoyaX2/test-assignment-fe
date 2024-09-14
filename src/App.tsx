@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
 
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
+
 function App() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    axios.get(`api/links?`);
+    axios.get(`api/links`);
   }, []);
 
   return (

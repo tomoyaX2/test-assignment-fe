@@ -6,21 +6,14 @@ export default defineConfig(({ mode }) => {
   //@ts-expect-error
   const env = loadEnv(mode, process.cwd(), "");
 
-  console.log(env.VITE_API_URL, "env.VITE_API_URL");
   return {
     plugins: [react()],
+    base: "/test-assignment-fe",
+
     define: {
       "process.env": {
         VITE_API_URL: env.VITE_API_URL,
         VITE_API_KEY: env.VITE_API_KEY,
-      },
-    },
-    server: {
-      proxy: {
-        "/api": {
-          target: env.VITE_API_URL,
-          changeOrigin: true,
-        },
       },
     },
   };
