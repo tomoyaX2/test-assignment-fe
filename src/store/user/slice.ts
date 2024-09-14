@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User, UserState } from "./types";
-import { login } from "./actions";
+import { login, logout, signup } from "./actions";
 
 const initialState: UserState = {
   user: null,
@@ -28,6 +28,20 @@ const userSlice = createSlice({
     builder.addCase(login.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message || "Failed to fetch user";
+    });
+    builder.addCase(signup.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(signup.fulfilled, (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(signup.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "Failed to fetch user";
+    });
+    builder.addCase(logout.fulfilled, (state) => {
+      state.user = null;
     });
   },
 });

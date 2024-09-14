@@ -8,34 +8,44 @@ import AccountSettings from "./modules/app/account-settings";
 import SetPassword from "./modules/auth/set-password";
 import Layout from "./components/ui/layout";
 import { ThemeProvider } from "./components/providers/theme-provider";
+import { useAppDispatch } from "./store";
+import { useEffect } from "react";
+import { checkUser } from "./store/user/actions";
+import ProtectedRoute from "./components/hoc/protected-route";
+import { BASE_APP_PATH } from "./shared/constants";
 
 axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(checkUser());
+  }, [dispatch]);
+
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Router>
         <Layout>
           <Routes>
+            <Route path={BASE_APP_PATH} element={<ConvertLinkToShort />} />
             <Route
-              path="/test-assignment-fe"
-              element={<ConvertLinkToShort />}
-            />
-            <Route
-              path="/test-assignment-fe/s/:link"
+              path={`${BASE_APP_PATH}/s/:link`}
               element={<ConvertLinkToRealAndRedirect />}
             />
             <Route
-              path="/test-assignment-fe/set-password"
+              path={`${BASE_APP_PATH}/set-password`}
               element={<SetPassword />}
             />
 
             <Route
-              path="/test-assignment-fe/app/dashboard"
+              Component={ProtectedRoute}
+              path={`${BASE_APP_PATH}/app/dashboard`}
               element={<Dashboard />}
             />
             <Route
-              path="/test-assignment-fe/app/account-settings"
+              Component={ProtectedRoute}
+              path={`${BASE_APP_PATH}/app/account-settings`}
               element={<AccountSettings />}
             />
           </Routes>

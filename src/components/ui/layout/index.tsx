@@ -1,11 +1,11 @@
-import { UserIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import Modal from "../modal";
 import SignInForm from "../../../modules/auth/sign-in";
 import SignUpForm from "../../../modules/auth/sign-up";
+import { useAppSelector } from "../../../store";
+import { UserAvatar } from "../user-avatar";
 
 const Layout = ({ children }: { children: JSX.Element }) => {
-  const isAuthorized = localStorage.getItem("access_token");
+  const isAuthorized = useAppSelector((state) => state.user.user);
   const [isSignInOpen, setSignInOpen] = useState(false);
   const [isSignUpOpen, setSignUpOpen] = useState(false);
 
@@ -16,22 +16,32 @@ const Layout = ({ children }: { children: JSX.Element }) => {
           <h1 className="text-2xl font-bold ">App Name</h1>
           <nav>
             {isAuthorized ? (
-              <UserIcon className="h-6 w-6 text-gray-700" />
+              <UserAvatar />
             ) : (
-              <div className="flex space-x-4">
-                <button
-                  onClick={() => setSignInOpen(true)}
-                  className="mr-4 font-medium"
-                >
-                  Sign In
-                </button>
-                <button
-                  onClick={() => setSignUpOpen(true)}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                >
-                  Sign Up
-                </button>
-              </div>
+              <>
+                <div className="flex space-x-4">
+                  <button
+                    onClick={() => setSignInOpen(true)}
+                    className="mr-4 font-medium"
+                  >
+                    Sign In
+                  </button>
+                  <button
+                    onClick={() => setSignUpOpen(true)}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                  >
+                    Sign Up
+                  </button>
+                </div>
+                {isSignInOpen && <SignInForm setSignInOpen={setSignInOpen} />}
+                {isSignUpOpen && (
+                  <SignUpForm
+                    closeModal={() => {
+                      setSignUpOpen(false);
+                    }}
+                  />
+                )}
+              </>
             )}
           </nav>
         </div>
@@ -48,14 +58,6 @@ const Layout = ({ children }: { children: JSX.Element }) => {
           </p>
         </div>
       </footer>
-
-      <Modal isOpen={isSignInOpen} onClose={() => setSignInOpen(false)}>
-        <SignInForm />
-      </Modal>
-
-      <Modal isOpen={isSignUpOpen} onClose={() => setSignUpOpen(false)}>
-        <SignUpForm />
-      </Modal>
     </div>
   );
 };

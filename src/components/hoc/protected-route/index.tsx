@@ -1,13 +1,22 @@
-import { Navigate } from "react-router-dom";
+import React from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAppSelector } from "../../../store";
+import { BASE_APP_PATH } from "../../../shared/constants";
 
-const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-  const accessToken = localStorage.getItem("access_token");
+interface ProtectedRouteProps {
+  redirectPath?: string;
+}
 
-  if (!accessToken) {
-    return <Navigate to="/" replace />;
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  redirectPath = BASE_APP_PATH,
+}) => {
+  const user = useAppSelector((state) => state.user);
+
+  if (!user) {
+    return <Navigate to={redirectPath} replace />;
   }
 
-  return children;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

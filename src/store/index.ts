@@ -4,7 +4,7 @@ import {
   Action,
   ThunkDispatch,
 } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import rootReducer from "./root";
 
 export const store = configureStore({
@@ -23,3 +23,4 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 >;
 
 export const useAppDispatch = () => useDispatch<TypedDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

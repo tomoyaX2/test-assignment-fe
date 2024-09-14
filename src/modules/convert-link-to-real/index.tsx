@@ -1,21 +1,25 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import { useAppDispatch } from "../../store";
+import { checkLink } from "../../store/links/actions";
+import { Link } from "../../store/links/types";
 
 const ConvertLinkToRealAndRedirect = () => {
   const { link } = useParams();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const fetchLink = async () => {
-      try {
-        const response = await axios.get(`/api/get-long-link/${link}`);
-        window.location.href = response.data.longLink;
-      } catch (error) {
-        console.error("Failed to fetch the long link", error);
-      }
-    };
-    fetchLink();
-  }, [link]);
+    if (link) {
+      dispatch(
+        checkLink({
+          url: link,
+          onSuccess: (realLink: Link) => {
+            window.location.href = realLink.real_link;
+          },
+        })
+      );
+    }
+  }, [dispatch, link]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">

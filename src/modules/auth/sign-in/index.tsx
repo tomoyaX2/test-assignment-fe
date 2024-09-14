@@ -2,6 +2,8 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Input } from "../../../components/ui/input";
 import { Button } from "../../../components/ui/button";
+import { useRef } from "react";
+import { useClickOutside } from "../../../shared/hooks/click-outside";
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -10,10 +12,23 @@ const SignInSchema = Yup.object().shape({
     .required("Password is required"),
 });
 
-const SignInForm = () => {
+const SignInForm = ({
+  setSignInOpen,
+}: {
+  setSignInOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useClickOutside(ref, () => {
+    setSignInOpen(false);
+  });
+
   const onSubmit = () => {};
   return (
-    <div>
+    <div
+      className="absolute bg-gray-900 px-6 py-4 right-12 top-16 rounded-lg w-[350px] z-2"
+      ref={ref}
+    >
       <h2 className="text-xl font-bold  mb-4">Sign In</h2>
       <Formik
         initialValues={{ email: "", password: "" }}
