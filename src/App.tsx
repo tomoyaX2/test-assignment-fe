@@ -18,13 +18,28 @@ function App() {
         <Layout>
           <Routes>
             {/* Public Routes */}
-            <Route path="/" element={<ConvertLinkToShort />} />
-            <Route path="/s/:link" element={<ConvertLinkToRealAndRedirect />} />
-            <Route path="/set-password" element={<SetPassword />} />
+            <Route
+              path="/test-assignment-fe"
+              element={<ConvertLinkToShort />}
+            />
+            <Route
+              path="/test-assignment-fe/s/:link"
+              element={<ConvertLinkToRealAndRedirect />}
+            />
+            <Route
+              path="/test-assignment-fe/set-password"
+              element={<SetPassword />}
+            />
 
             {/* Protected Routes */}
-            <Route path="/app/dashboard" element={<Dashboard />} />
-            <Route path="/app/account-settings" element={<AccountSettings />} />
+            <Route
+              path="/test-assignment-fe/app/dashboard"
+              element={<Dashboard />}
+            />
+            <Route
+              path="/test-assignment-fe/app/account-settings"
+              element={<AccountSettings />}
+            />
           </Routes>
         </Layout>
       </Router>
