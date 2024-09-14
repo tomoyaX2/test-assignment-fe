@@ -5,8 +5,9 @@ import axios from "axios";
 
 function App() {
   const [count, setCount] = useState(0);
+
   useEffect(() => {
-    axios.get(`api/links`);
+    axios.get(`api/links?`);
   }, []);
 
   return (
@@ -14,7 +15,7 @@ function App() {
       <h1 className="">Vite + React</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+          count is {count} + 1
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR

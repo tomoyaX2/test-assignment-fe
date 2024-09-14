@@ -6,6 +6,7 @@ export default defineConfig(({ mode }) => {
   //@ts-expect-error
   const env = loadEnv(mode, process.cwd(), "");
 
+  console.log(env.VITE_API_URL, "env.VITE_API_URL");
   return {
     plugins: [react()],
     define: {
