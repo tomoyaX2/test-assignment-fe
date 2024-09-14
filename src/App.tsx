@@ -1,32 +1,34 @@
-import { useEffect, useState } from "react";
-
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import axios from "axios";
+import { ConvertLinkToShort } from "./modules/convert-link-to-short";
+import ConvertLinkToRealAndRedirect from "./modules/convert-link-to-real";
+import Dashboard from "./modules/app/dashboard";
+import AccountSettings from "./modules/app/account-settings";
+import SetPassword from "./modules/auth/set-password";
+import Layout from "./components/ui/layout";
+import { ThemeProvider } from "./components/providers/theme-provider";
 
 axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    axios.get(`api/links`);
-  }, []);
-
   return (
-    <div className="">
-      <h1 className="">Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count} + 1
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <Router>
+        <Layout>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<ConvertLinkToShort />} />
+            <Route path="/s/:link" element={<ConvertLinkToRealAndRedirect />} />
+            <Route path="/set-password" element={<SetPassword />} />
+
+            {/* Protected Routes */}
+            <Route path="/app/dashboard" element={<Dashboard />} />
+            <Route path="/app/account-settings" element={<AccountSettings />} />
+          </Routes>
+        </Layout>
+      </Router>
+    </ThemeProvider>
   );
 }
 

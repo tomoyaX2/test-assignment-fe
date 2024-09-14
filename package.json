@@ -11,10 +11,20 @@
     "deploy": "yarn gh-pages -d dist"
   },
   "dependencies": {
+    "@heroicons/react": "^2.1.5",
+    "add": "^2.0.6",
     "axios": "^1.7.7",
+    "clsx": "^2.1.1",
+    "formik": "^2.4.6",
     "gh-pages": "^6.1.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2",
+    "tailwind-merge": "^2.5.2",
+    "tailwind-scrollbar": "^3.1.0",
+    "tailwindcss-animate": "^1.0.7",
+    "yarn": "^1.22.22",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
