@@ -51,7 +51,7 @@ const AccountSettings: React.FC = () => {
         uploadAvatar({
           file,
           onSuccess: () => {
-            dispatch(checkUser());
+            dispatch(checkUser({}));
           },
         })
       );
@@ -68,7 +68,7 @@ const AccountSettings: React.FC = () => {
       );
     }
     if (values.email !== userSettings.email) {
-      dispatch(changeEmail());
+      dispatch(changeEmail({}));
     }
   };
 

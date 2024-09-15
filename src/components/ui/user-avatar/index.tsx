@@ -4,6 +4,7 @@ import { useAppDispatch } from "@store/index";
 import { logout } from "@store/user/actions";
 import { useNavigate } from "react-router-dom";
 import { BASE_APP_PATH } from "@shared/constants";
+import { useClickOutside } from "@shared/hooks/click-outside";
 
 export const UserAvatar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -11,18 +12,23 @@ export const UserAvatar = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  useClickOutside(menuRef, () => {
+    setMenuOpen(false);
+  });
+
   const toggleMenu = () => {
     setMenuOpen((prevState) => !prevState);
   };
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logout({}));
     setMenuOpen(false);
     navigate(BASE_APP_PATH);
   };
 
   const goToAccountSettings = () => {
     navigate(`app/account-settings`);
+    setMenuOpen(false);
   };
 
   // const goToDashboard = () => {
@@ -30,7 +36,7 @@ export const UserAvatar = () => {
   // };
 
   return (
-    <div className="mr-8">
+    <div className="mr-2">
       <button onClick={toggleMenu} className="flex items-center">
         <UserIcon className="h-6 w-6 text-gray-700" />
       </button>

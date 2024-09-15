@@ -8,51 +8,46 @@ import AccountSettings from "./modules/app/account-settings";
 import SetPassword from "./modules/auth/set-password";
 import Layout from "./components/ui/layout";
 import { ThemeProvider } from "./components/providers/theme-provider";
-import { useAppDispatch, useAppSelector } from "./store";
+import { useAppDispatch } from "./store";
 import { useEffect } from "react";
 import { checkUser } from "./store/user/actions";
 import ProtectedRoute from "./components/hoc/protected-route";
 import { BASE_APP_PATH } from "./shared/constants";
-import { Spinner } from "./components/ui/spinner";
 
-axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
+axios.defaults.baseURL = "https://45a2783c86a6.ngrok.app";
 
 function App() {
   const dispatch = useAppDispatch();
-  const loading = useAppSelector((state) => state.user.loading);
+
   useEffect(() => {
-    dispatch(checkUser());
+    dispatch(checkUser({}));
   }, [dispatch]);
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Router>
         <Layout>
-          {loading ? (
-            <Spinner />
-          ) : (
-            <Routes>
-              <Route path={BASE_APP_PATH} element={<ConvertLinkToShort />} />
+          <Routes>
+            <Route path={BASE_APP_PATH} element={<ConvertLinkToShort />} />
+            <Route
+              path={`${BASE_APP_PATH}/s/:link`}
+              element={<ConvertLinkToRealAndRedirect />}
+            />
+            <Route
+              path={`${BASE_APP_PATH}/set-password`}
+              element={<SetPassword />}
+            />
+            <Route element={<ProtectedRoute redirectPath={BASE_APP_PATH} />}>
               <Route
-                path={`${BASE_APP_PATH}/s/:link`}
-                element={<ConvertLinkToRealAndRedirect />}
+                path={`${BASE_APP_PATH}/app/dashboard`}
+                element={<Dashboard />}
               />
               <Route
-                path={`${BASE_APP_PATH}/set-password`}
-                element={<SetPassword />}
+                path={`${BASE_APP_PATH}/app/account-settings`}
+                element={<AccountSettings />}
               />
-              <Route element={<ProtectedRoute redirectPath={BASE_APP_PATH} />}>
-                <Route
-                  path={`${BASE_APP_PATH}/app/dashboard`}
-                  element={<Dashboard />}
-                />
-                <Route
-                  path={`${BASE_APP_PATH}/app/account-settings`}
-                  element={<AccountSettings />}
-                />
-              </Route>
-            </Routes>
-          )}
+            </Route>
+          </Routes>
         </Layout>
       </Router>
     </ThemeProvider>

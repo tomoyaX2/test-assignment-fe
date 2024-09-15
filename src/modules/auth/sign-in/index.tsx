@@ -4,6 +4,9 @@ import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { useRef } from "react";
 import { useClickOutside } from "@shared/hooks/click-outside";
+import { useAppDispatch } from "@store/index";
+import { login } from "@store/user/actions";
+import { LoginValues } from "./types";
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -18,12 +21,22 @@ const SignInForm = ({
   setSignInOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const dispatch = useAppDispatch();
 
   useClickOutside(ref, () => {
     setSignInOpen(false);
   });
 
-  const onSubmit = () => {};
+  const onSubmit = (values: LoginValues) => {
+    dispatch(
+      login({
+        ...values,
+        onSuccess: () => {
+          setSignInOpen(false);
+        },
+      })
+    );
+  };
   return (
     <div
       className="absolute bg-gray-900 px-6 py-4 right-12 top-16 rounded-lg w-[350px] z-2"

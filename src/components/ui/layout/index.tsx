@@ -5,6 +5,7 @@ import { useAppSelector } from "@store/index";
 import { UserAvatar } from "../user-avatar";
 import { useNavigate } from "react-router-dom";
 import { BASE_APP_PATH } from "@shared/constants";
+import { Spinner } from "../spinner";
 
 const Layout = ({ children }: { children: JSX.Element }) => {
   const isAuthorized = useAppSelector((state) => state.user.user);
@@ -23,7 +24,9 @@ const Layout = ({ children }: { children: JSX.Element }) => {
           >
             App Name
           </h1>
-          {!isUserLoading && (
+          {isUserLoading ? (
+            <Spinner />
+          ) : (
             <nav>
               {isAuthorized ? (
                 <UserAvatar />

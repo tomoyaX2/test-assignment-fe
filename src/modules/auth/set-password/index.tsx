@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { useAppDispatch } from "@store/index";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { SetPasswordValues } from "./types";
 import { setPassword } from "@store/user/actions";
 import { BASE_APP_PATH } from "@shared/constants";
@@ -18,7 +18,8 @@ const PasswordSchema = Yup.object().shape({
 });
 
 const SetPassword = () => {
-  const { token } = useParams();
+  const [searchParams] = useSearchParams();
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -26,6 +27,9 @@ const SetPassword = () => {
     values: SetPasswordValues,
     { setSubmitting, resetForm }: FormikHelpers<SetPasswordValues>
   ) => {
+    const token = searchParams.get("token");
+    navigate(BASE_APP_PATH);
+
     dispatch(
       setPassword({
         password: values.password,

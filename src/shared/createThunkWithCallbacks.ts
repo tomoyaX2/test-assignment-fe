@@ -9,19 +9,17 @@ export function createThunkWithCallbacks<
   Payload extends ThunkCallbacks<Result>,
   Result = any
 >(type: string, asyncFn: (payload: Payload) => Promise<Result>) {
-  return createAsyncThunk(type, async (payload: Payload | undefined) => {
-    if (payload) {
-      const { onSuccess, onReject } = payload;
+  return createAsyncThunk(type, async (payload: Payload) => {
+    const { onSuccess, onReject } = payload;
 
-      try {
-        const result = await asyncFn(payload);
+    try {
+      const result = await asyncFn(payload);
 
-        onSuccess?.(result);
-        return result;
-      } catch (error) {
-        onReject?.();
-        throw error;
-      }
+      onSuccess?.(result);
+      return result;
+    } catch (error) {
+      onReject?.();
+      throw error;
     }
   });
 }
