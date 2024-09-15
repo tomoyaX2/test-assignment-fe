@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { checkUser } from "./store/user/actions";
 import ProtectedRoute from "./components/hoc/protected-route";
 import { BASE_APP_PATH } from "./shared/constants";
+import { Toaster } from "@components/ui/toast/Toaster";
 
 axios.defaults.baseURL = "https://45a2783c86a6.ngrok.app";
 
@@ -50,6 +51,7 @@ function App() {
           </Routes>
         </Layout>
       </Router>
+      <Toaster />
     </ThemeProvider>
   );
 }

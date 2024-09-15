@@ -7,6 +7,7 @@ import { useClickOutside } from "@shared/hooks/click-outside";
 import { useAppDispatch } from "@store/index";
 import { login } from "@store/user/actions";
 import { LoginValues } from "./types";
+import { useToast } from "@components/ui/toast/use-toast";
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -22,6 +23,7 @@ const SignInForm = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
+  const { toast } = useToast();
 
   useClickOutside(ref, () => {
     setSignInOpen(false);
@@ -33,6 +35,9 @@ const SignInForm = ({
         ...values,
         onSuccess: () => {
           setSignInOpen(false);
+          toast({
+            title: "Welcome back!",
+          });
         },
       })
     );

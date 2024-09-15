@@ -7,6 +7,7 @@ import { signup } from "@store/user/actions";
 import { SignUpFormProps, SignUpFormValues } from "./types";
 import { useRef } from "react";
 import { useClickOutside } from "@shared/hooks/click-outside";
+import { useToast } from "@components/ui/toast/use-toast";
 
 const SignUpSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -15,7 +16,7 @@ const SignUpSchema = Yup.object().shape({
 const SignUpForm = ({ closeModal }: SignUpFormProps) => {
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement>(null);
-
+  const { toast } = useToast();
   useClickOutside(ref, () => {
     closeModal();
   });
@@ -30,6 +31,10 @@ const SignUpForm = ({ closeModal }: SignUpFormProps) => {
         onSuccess: () => {
           closeModal();
           formikHelpers.setSubmitting(false);
+          toast({
+            title:
+              "Welcome to the Platform! We sent an email to setup your password, but you can use everything right now.",
+          });
         },
       })
     );

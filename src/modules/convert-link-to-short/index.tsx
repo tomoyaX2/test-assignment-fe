@@ -2,23 +2,29 @@ import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
-import { useAppDispatch } from "../../store";
-import { checkLink, convertLinkToShortFree } from "../../store/links/actions";
+import { useAppDispatch, useAppSelector } from "../../store";
+import {
+  checkLink,
+  convertLinkToShortAuth,
+  convertLinkToShortFree,
+} from "../../store/links/actions";
 import { ConvertLinkToShortValues } from "./types";
 import { useEffect, useState } from "react";
 import { ClipboardIcon, CheckIcon } from "@heroicons/react/24/outline";
 import { GENERATED_FREE_LINK_KEY } from "../../shared/constants";
 import { Link } from "../../store/links/types";
+import { Select } from "@components/ui/select";
 
 const LinkSchema = Yup.object().shape({
   url: Yup.string().url("Invalid URL").required("Link is required"),
+  expirationTime: Yup.number(),
 });
 
 export const ConvertLinkToShort = () => {
   const dispatch = useAppDispatch();
   const [link, setShortLink] = useState<Link | null>(null);
   const [isCopied, setIsCopied] = useState(false);
-
+  const { user } = useAppSelector((state) => state.user);
   useEffect(() => {
     const savedLink = localStorage.getItem(GENERATED_FREE_LINK_KEY);
     if (savedLink) {
@@ -44,16 +50,30 @@ export const ConvertLinkToShort = () => {
     values: ConvertLinkToShortValues,
     { setSubmitting, resetForm }: FormikHelpers<ConvertLinkToShortValues>
   ) => {
-    dispatch(
-      convertLinkToShortFree({
-        url: values.url,
-        onSuccess: (link: Link) => {
-          setShortLink(link);
-          setSubmitting(false);
-          resetForm();
-        },
-      })
-    );
+    if (user) {
+      dispatch(
+        convertLinkToShortAuth({
+          url: values.url,
+          expirationTime: parseInt(values.expirationTime || "15"),
+          onSuccess: (link: Link) => {
+            setShortLink(link);
+            setSubmitting(false);
+            resetForm();
+          },
+        })
+      );
+    } else {
+      dispatch(
+        convertLinkToShortFree({
+          url: values.url,
+          onSuccess: (link: Link) => {
+            setShortLink(link);
+            setSubmitting(false);
+            resetForm();
+          },
+        })
+      );
+    }
   };
 
   const copyToClipboard = () => {
@@ -84,6 +104,17 @@ export const ConvertLinkToShort = () => {
                 name="url"
                 placeholder="https://example.com"
               />
+              {!!user && (
+                <Select
+                  name="expirationTime"
+                  label="Expiration Time"
+                  options={[
+                    { label: "15 minutes", value: 15 },
+                    { label: "30 minutes", value: 30 },
+                    { label: "1 hour", value: 60 },
+                  ]}
+                />
+              )}
 
               <Button
                 type="submit"

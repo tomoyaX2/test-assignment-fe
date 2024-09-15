@@ -3,12 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch } from "../../store";
 import { checkLink } from "../../store/links/actions";
 import { Link } from "../../store/links/types";
-import { BASE_APP_PATH } from "../../shared/constants";
+import { useToast } from "@components/ui/toast/use-toast";
+import { BASE_APP_PATH } from "@shared/constants";
 
 const ConvertLinkToRealAndRedirect = () => {
   const { link } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   useEffect(() => {
     if (link) {
@@ -19,7 +21,13 @@ const ConvertLinkToRealAndRedirect = () => {
             window.location.href = realLink.real_link;
           },
           onReject: () => {
-            navigate(BASE_APP_PATH);
+            toast({
+              title: "Looks like your link expired or is not valid",
+              description: "You will be redirected to main page in 2 seconds",
+            });
+            setTimeout(() => {
+              navigate(BASE_APP_PATH);
+            }, 2000);
           },
         })
       );

@@ -7,6 +7,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { SetPasswordValues } from "./types";
 import { setPassword } from "@store/user/actions";
 import { BASE_APP_PATH } from "@shared/constants";
+import { useToast } from "@components/ui/toast/use-toast";
 
 const PasswordSchema = Yup.object().shape({
   password: Yup.string()
@@ -22,6 +23,7 @@ const SetPassword = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const submitForm = async (
     values: SetPasswordValues,
@@ -36,6 +38,10 @@ const SetPassword = () => {
         token: token ?? "",
         onSuccess: () => {
           navigate(BASE_APP_PATH);
+          toast({
+            title:
+              "Password was set up. Please, enter your credentials via Login form",
+          });
         },
         onReject: () => {
           setSubmitting(false);

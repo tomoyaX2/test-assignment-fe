@@ -15,4 +15,5 @@ export interface LinksState {
 
 export interface LinkArgs extends ThunkCallbacks<Link> {
   url: string;
+  expirationTime?: number;
 }
