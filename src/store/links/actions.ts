@@ -1,22 +1,14 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { GENERATED_FREE_LINK_KEY } from "../../shared/constants";
-import { Link } from "./types";
+import { Link, LinkArgs } from "./types";
+import { createThunkWithCallbacks } from "@shared/createThunkWithCallbacks";
 
-export const convertLinkToShortFree = createAsyncThunk(
+export const convertLinkToShortFree = createThunkWithCallbacks(
   "links/convertToShort",
-  async ({
-    url,
-    onSuccess,
-  }: {
-    url: string;
-    onSuccess?: (link: Link) => void;
-  }) => {
+  async ({ url }: LinkArgs) => {
     const response = await axios.post<Link>("api/links/free/convert", {
       url,
     });
-
-    onSuccess?.(response.data);
 
     localStorage.setItem(GENERATED_FREE_LINK_KEY, response.data.short_link);
 
@@ -24,25 +16,12 @@ export const convertLinkToShortFree = createAsyncThunk(
   }
 );
 
-export const checkLink = createAsyncThunk(
+export const checkLink = createThunkWithCallbacks(
   "links/checkLink",
-  async ({
-    url,
-    onSuccess,
-    onReject,
-  }: {
-    url: string;
-    onSuccess?: (link: Link) => void;
-    onReject?: () => void;
-  }) => {
-    try {
-      const response = await axios.post<Link>("api/links/real", {
-        shortLink: url,
-      });
-
-      onSuccess?.(response.data);
-    } catch {
-      onReject?.();
-    }
+  async ({ url }: LinkArgs) => {
+    const response = await axios.post<Link>("api/links/real", {
+      shortLink: url,
+    });
+    return response.data;
   }
 );

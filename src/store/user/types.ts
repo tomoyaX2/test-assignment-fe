@@ -1,3 +1,5 @@
+import { ThunkCallbacks } from "@shared/createThunkWithCallbacks";
+
 export interface User {
   id: string;
   email: string;
@@ -10,27 +12,25 @@ export interface UserState {
   error: string | null;
 }
 
-export interface SignupArgs {
+export interface LoginArgs extends ThunkCallbacks<void> {
   email: string;
-  onSuccess?: () => void;
+  password: string;
 }
 
-export interface SetPasswordArgs {
+export interface SignupArgs extends ThunkCallbacks<void> {
+  email: string;
+}
+
+export interface SetPasswordArgs extends ThunkCallbacks<void> {
   password: string;
   token: string;
-  onSuccess?: () => void;
-  onReject?: () => void;
 }
 
-export interface UploadAvatarArgs {
+export interface UploadAvatarArgs extends ThunkCallbacks<void> {
   file: File;
-  onSuccess?: () => void;
-  onReject?: () => void;
 }
 
-export interface ChangePasswordArgs {
+export interface ChangePasswordArgs extends ThunkCallbacks<void> {
   oldPassword: string;
   newPassword: string;
-  onSuccess?: () => void;
-  onReject?: () => void;
 }
