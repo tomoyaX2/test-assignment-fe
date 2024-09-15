@@ -1,4 +1,4 @@
-import { cn } from "../../../shared/cn";
+import { cn } from "@shared/cn";
 import { Spinner } from "../spinner";
 
 interface ButtonProps {

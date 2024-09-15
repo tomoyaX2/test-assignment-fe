@@ -1,10 +1,10 @@
 import { useState } from "react";
-import SignInForm from "../../../modules/auth/sign-in";
-import SignUpForm from "../../../modules/auth/sign-up";
-import { useAppSelector } from "../../../store";
+import SignInForm from "@modules/auth/sign-in";
+import SignUpForm from "@modules/auth/sign-up";
+import { useAppSelector } from "@store/index";
 import { UserAvatar } from "../user-avatar";
 import { useNavigate } from "react-router-dom";
-import { BASE_APP_PATH } from "../../../shared/constants";
+import { BASE_APP_PATH } from "@shared/constants";
 
 const Layout = ({ children }: { children: JSX.Element }) => {
   const isAuthorized = useAppSelector((state) => state.user.user);

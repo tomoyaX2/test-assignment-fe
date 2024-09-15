@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useAppSelector } from "../../../store";
-import { BASE_APP_PATH } from "../../../shared/constants";
+import { useAppSelector } from "@store/index";
+import { BASE_APP_PATH } from "@shared/constants";
 
 interface ProtectedRouteProps {
   redirectPath?: string;

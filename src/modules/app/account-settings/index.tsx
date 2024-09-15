@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
-import { useAppDispatch, useAppSelector } from "../../../store";
-import { checkUser, uploadAvatar } from "../../../store/user/actions";
+import { useAppDispatch, useAppSelector } from "@store/index";
+import {
+  changeEmail,
+  changePassword,
+  checkUser,
+  uploadAvatar,
+} from "@store/user/actions";
 import { UserFormSettingsValues } from "./types";
-import { Input } from "../../../components/ui/input";
-import { Button } from "../../../components/ui/button";
-import { Spinner } from "../../../components/ui/spinner";
+import { Input } from "@components/ui/input";
+import { Button } from "@components/ui/button";
+import { Spinner } from "@components/ui/spinner";
 
-// Validation schema using Yup
 const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email address")
@@ -56,7 +59,17 @@ const AccountSettings: React.FC = () => {
   };
 
   const handleFormSubmit = async (values: UserFormSettingsValues) => {
-    await axios.put("/api/account-settings", values);
+    if (values.newPassword && values.oldPassword) {
+      dispatch(
+        changePassword({
+          oldPassword: values.oldPassword,
+          newPassword: values.newPassword,
+        })
+      );
+    }
+    if (values.email !== userSettings.email) {
+      dispatch(changeEmail());
+    }
   };
 
   if (loading || !userSettings.email) {
@@ -100,6 +113,7 @@ const AccountSettings: React.FC = () => {
         <input
           id="avatar"
           name="avatar"
+          accept=".png,.jpg"
           type="file"
           onChange={handleAvatarUpload}
           className="w-full px-4 py-2"

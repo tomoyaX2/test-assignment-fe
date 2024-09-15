@@ -1,5 +1,5 @@
 import { ErrorMessage, Field } from "formik";
-import { cn } from "../../../shared/cn";
+import { cn } from "@shared/cn";
 
 interface InputProps {
   name: string;

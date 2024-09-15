@@ -1,12 +1,12 @@
 import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import { Input } from "../../../components/ui/input";
-import { Button } from "../../../components/ui/button";
-import { useAppDispatch } from "../../../store";
-import { signup } from "../../../store/user/actions";
+import { Input } from "@components/ui/input";
+import { Button } from "@components/ui/button";
+import { useAppDispatch } from "@store/index";
+import { signup } from "@store/user/actions";
 import { SignUpFormProps, SignUpFormValues } from "./types";
 import { useRef } from "react";
-import { useClickOutside } from "../../../shared/hooks/click-outside";
+import { useClickOutside } from "@shared/hooks/click-outside";
 
 const SignUpSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),

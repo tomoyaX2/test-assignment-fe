@@ -1,6 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { SetPasswordArgs, SignupArgs, UploadAvatarArgs } from "./types";
+import {
+  ChangePasswordArgs,
+  SetPasswordArgs,
+  SignupArgs,
+  UploadAvatarArgs,
+} from "./types";
 import { appendTokenToHeaders } from "../../shared/api";
 import { ACCESS_TOKEN_KEY } from "../../shared/constants";
 
@@ -82,3 +87,28 @@ export const uploadAvatar = createAsyncThunk(
     }
   }
 );
+
+export const changePassword = createAsyncThunk(
+  "user/changePassword",
+  async ({
+    oldPassword,
+    newPassword,
+    onSuccess,
+    onReject,
+  }: ChangePasswordArgs) => {
+    try {
+      await axios.post(`api/user/change-password`, {
+        oldPassword,
+        newPassword,
+      });
+      onSuccess?.();
+      return;
+    } catch {
+      onReject?.();
+    }
+  }
+);
+
+export const changeEmail = createAsyncThunk("user/changeEmail", async () => {
+  //TBD
+});

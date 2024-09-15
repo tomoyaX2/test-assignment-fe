@@ -27,3 +27,10 @@ export interface UploadAvatarArgs {
   onSuccess?: () => void;
   onReject?: () => void;
 }
+
+export interface ChangePasswordArgs {
+  oldPassword: string;
+  newPassword: string;
+  onSuccess?: () => void;
+  onReject?: () => void;
+}
