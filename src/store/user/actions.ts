@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { SignupArgs } from "./types";
+import { SetPasswordArgs, SignupArgs } from "./types";
 import { appendTokenToHeaders } from "../../shared/api";
 import { ACCESS_TOKEN_KEY } from "../../shared/constants";
 
@@ -36,8 +36,8 @@ export const signup = createAsyncThunk(
       { email: data.email }
     );
 
-    appendTokenToHeaders(authResponse.data.access_token);
     localStorage.setItem(ACCESS_TOKEN_KEY, authResponse.data.access_token);
+    appendTokenToHeaders(authResponse.data.access_token);
 
     const response = await axios.get(`api/user`);
     data?.onSuccess?.();
@@ -48,3 +48,19 @@ export const signup = createAsyncThunk(
 export const logout = createAsyncThunk("user/logout", async () => {
   localStorage.removeItem("access_token");
 });
+
+export const setPassword = createAsyncThunk(
+  "user/setPassword",
+  async (data: SetPasswordArgs) => {
+    try {
+      await axios.post(`api/user/set-password`, {
+        password: data.password,
+        token: data.token,
+      });
+      data.onSuccess?.();
+      return;
+    } catch {
+      data.onReject?.();
+    }
+  }
+);

@@ -92,15 +92,23 @@ export const ConvertLinkToShort = () => {
         </Formik>
         {link?.id && (
           <div className="p-4 rounded-md flex flex-col items-center justify-between mt-4">
-            <span className="w-full text-left">
-              {link.real_link} was converted to
-            </span>
-            <div className="flex mt-4">
+            <span className="w-full text-left italic">
               <a
                 href={link.short_link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline"
+                className="underline italic"
+              >
+                {link.real_link}
+              </a>{" "}
+              was converted to
+            </span>
+            <div className="flex mt-4 w-full">
+              <a
+                href={link.short_link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline italic"
               >
                 {link.short_link}
               </a>

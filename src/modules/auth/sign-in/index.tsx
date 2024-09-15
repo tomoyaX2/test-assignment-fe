@@ -41,12 +41,14 @@ const SignInForm = ({
               type="email"
               placeholder="test@test.com"
               name="email"
+              isRequired
               label="Email"
             />
             <Input
               type="password"
               placeholder="********"
               name="password"
+              isRequired
               label="Password"
             />
 

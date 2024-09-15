@@ -51,6 +51,7 @@ const SignUpForm = ({ closeModal }: SignUpFormProps) => {
             <Input
               type="email"
               name="email"
+              isRequired
               placeholder="test@test.com"
               label="Email"
             />

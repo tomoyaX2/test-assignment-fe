@@ -1,12 +1,14 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch } from "../../store";
 import { checkLink } from "../../store/links/actions";
 import { Link } from "../../store/links/types";
+import { BASE_APP_PATH } from "../../shared/constants";
 
 const ConvertLinkToRealAndRedirect = () => {
   const { link } = useParams();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (link) {
@@ -16,13 +18,16 @@ const ConvertLinkToRealAndRedirect = () => {
           onSuccess: (realLink: Link) => {
             window.location.href = realLink.real_link;
           },
+          onReject: () => {
+            navigate(BASE_APP_PATH);
+          },
         })
       );
     }
-  }, [dispatch, link]);
+  }, [dispatch, link, navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
+    <div className="flex items-center justify-center text-white">
       <p>Redirecting...</p>
     </div>
   );

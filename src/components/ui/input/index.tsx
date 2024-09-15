@@ -30,7 +30,7 @@ export const Input = ({
         htmlFor="link"
         className={cn("text-gray-400 mb-2 block", labelClassName)}
       >
-        {label} {isRequired && <span className="text-red">*</span>}
+        {label} {isRequired && <span className="text-red-400">*</span>}
       </label>
       <Field
         type={type}

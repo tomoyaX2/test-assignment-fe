@@ -3,17 +3,25 @@ import SignInForm from "../../../modules/auth/sign-in";
 import SignUpForm from "../../../modules/auth/sign-up";
 import { useAppSelector } from "../../../store";
 import { UserAvatar } from "../user-avatar";
+import { useNavigate } from "react-router-dom";
+import { BASE_APP_PATH } from "../../../shared/constants";
 
 const Layout = ({ children }: { children: JSX.Element }) => {
   const isAuthorized = useAppSelector((state) => state.user.user);
   const [isSignInOpen, setSignInOpen] = useState(false);
   const [isSignUpOpen, setSignUpOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen flex flex-col">
       <header className="border-b border-gray-200">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold ">App Name</h1>
+          <h1
+            className="text-2xl font-bold cursor-pointer"
+            onClick={() => navigate(BASE_APP_PATH)}
+          >
+            App Name
+          </h1>
           <nav>
             {isAuthorized ? (
               <UserAvatar />

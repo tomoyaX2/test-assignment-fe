@@ -29,14 +29,20 @@ export const checkLink = createAsyncThunk(
   async ({
     url,
     onSuccess,
+    onReject,
   }: {
     url: string;
     onSuccess?: (link: Link) => void;
+    onReject?: () => void;
   }) => {
-    const response = await axios.post<Link>("api/links/real", {
-      shortLink: url,
-    });
+    try {
+      const response = await axios.post<Link>("api/links/real", {
+        shortLink: url,
+      });
 
-    onSuccess?.(response.data);
+      onSuccess?.(response.data);
+    } catch {
+      onReject?.();
+    }
   }
 );
