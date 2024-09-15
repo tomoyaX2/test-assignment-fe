@@ -1,6 +1,7 @@
 export interface User {
   id: string;
   email: string;
+  avatar_url: string | null;
 }
 
 export interface UserState {
@@ -17,6 +18,12 @@ export interface SignupArgs {
 export interface SetPasswordArgs {
   password: string;
   token: string;
+  onSuccess?: () => void;
+  onReject?: () => void;
+}
+
+export interface UploadAvatarArgs {
+  file: File;
   onSuccess?: () => void;
   onReject?: () => void;
 }

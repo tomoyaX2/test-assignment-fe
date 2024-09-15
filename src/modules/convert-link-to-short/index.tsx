@@ -32,6 +32,9 @@ export const ConvertLinkToShort = () => {
               localStorage.removeItem(GENERATED_FREE_LINK_KEY);
             }
           },
+          onReject: () => {
+            localStorage.removeItem(GENERATED_FREE_LINK_KEY);
+          },
         })
       );
     }

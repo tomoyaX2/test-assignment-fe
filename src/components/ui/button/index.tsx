@@ -6,6 +6,7 @@ interface ButtonProps {
   className?: string;
   isSubmitting?: boolean;
   buttonText?: string;
+  disabled?: boolean;
 }
 
 export const Button = ({
@@ -13,6 +14,7 @@ export const Button = ({
   className,
   isSubmitting,
   buttonText,
+  disabled,
 }: ButtonProps) => {
   return (
     <button
@@ -21,7 +23,7 @@ export const Button = ({
         "w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition duration-200",
         className
       )}
-      disabled={isSubmitting}
+      disabled={disabled || isSubmitting}
     >
       {isSubmitting ? <Spinner /> : buttonText}
     </button>

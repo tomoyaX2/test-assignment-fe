@@ -8,6 +8,7 @@ import { BASE_APP_PATH } from "../../../shared/constants";
 
 const Layout = ({ children }: { children: JSX.Element }) => {
   const isAuthorized = useAppSelector((state) => state.user.user);
+  const isUserLoading = useAppSelector((state) => state.user.loading);
   const [isSignInOpen, setSignInOpen] = useState(false);
   const [isSignUpOpen, setSignUpOpen] = useState(false);
   const navigate = useNavigate();
@@ -22,36 +23,38 @@ const Layout = ({ children }: { children: JSX.Element }) => {
           >
             App Name
           </h1>
-          <nav>
-            {isAuthorized ? (
-              <UserAvatar />
-            ) : (
-              <>
-                <div className="flex space-x-4">
-                  <button
-                    onClick={() => setSignInOpen(true)}
-                    className="mr-4 font-medium"
-                  >
-                    Sign In
-                  </button>
-                  <button
-                    onClick={() => setSignUpOpen(true)}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                  >
-                    Sign Up
-                  </button>
-                </div>
-                {isSignInOpen && <SignInForm setSignInOpen={setSignInOpen} />}
-                {isSignUpOpen && (
-                  <SignUpForm
-                    closeModal={() => {
-                      setSignUpOpen(false);
-                    }}
-                  />
-                )}
-              </>
-            )}
-          </nav>
+          {!isUserLoading && (
+            <nav>
+              {isAuthorized ? (
+                <UserAvatar />
+              ) : (
+                <>
+                  <div className="flex space-x-4">
+                    <button
+                      onClick={() => setSignInOpen(true)}
+                      className="mr-4 font-medium"
+                    >
+                      Sign In
+                    </button>
+                    <button
+                      onClick={() => setSignUpOpen(true)}
+                      className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                    >
+                      Sign Up
+                    </button>
+                  </div>
+                  {isSignInOpen && <SignInForm setSignInOpen={setSignInOpen} />}
+                  {isSignUpOpen && (
+                    <SignUpForm
+                      closeModal={() => {
+                        setSignUpOpen(false);
+                      }}
+                    />
+                  )}
+                </>
+              )}
+            </nav>
+          )}
         </div>
       </header>
 

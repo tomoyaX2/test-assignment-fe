@@ -11,6 +11,8 @@ interface InputProps {
   labelClassName?: string;
   isRequired?: boolean;
   containerClassName?: string;
+  autoComplete?: string;
+  value?: string;
 }
 
 export const Input = ({
@@ -23,6 +25,7 @@ export const Input = ({
   labelClassName,
   isRequired,
   containerClassName,
+  autoComplete,
 }: InputProps) => {
   return (
     <div className={containerClassName}>
@@ -35,6 +38,7 @@ export const Input = ({
       <Field
         type={type}
         name={name}
+        autoComplete={autoComplete}
         placeholder={placeholder}
         className={cn(
           "w-full p-2 bg-gray-700 text-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600",

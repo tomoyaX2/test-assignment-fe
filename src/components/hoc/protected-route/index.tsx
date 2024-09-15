@@ -10,8 +10,7 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   redirectPath = BASE_APP_PATH,
 }) => {
-  const user = useAppSelector((state) => state.user);
-
+  const user = useAppSelector((state) => state.user.user);
   if (!user) {
     return <Navigate to={redirectPath} replace />;
   }

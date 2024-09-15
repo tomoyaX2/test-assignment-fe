@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User, UserState } from "./types";
-import { login, logout, signup } from "./actions";
+import { checkUser, login, logout, signup } from "./actions";
 
 const initialState: UserState = {
   user: null,
-  loading: false,
+  loading: true,
   error: null,
 };
 
@@ -43,6 +43,16 @@ const userSlice = createSlice({
     builder.addCase(logout.fulfilled, (state) => {
       state.user = null;
     });
+    builder.addCase(checkUser.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(
+      checkUser.fulfilled,
+      (state, action: PayloadAction<User>) => {
+        state.user = action.payload;
+        state.loading = false;
+      }
+    );
   },
 });
 

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { SetPasswordArgs, SignupArgs } from "./types";
+import { SetPasswordArgs, SignupArgs, UploadAvatarArgs } from "./types";
 import { appendTokenToHeaders } from "../../shared/api";
 import { ACCESS_TOKEN_KEY } from "../../shared/constants";
 
@@ -61,6 +61,24 @@ export const setPassword = createAsyncThunk(
       return;
     } catch {
       data.onReject?.();
+    }
+  }
+);
+
+export const uploadAvatar = createAsyncThunk(
+  "user/uploadAvatar",
+  async ({ file, onSuccess, onReject }: UploadAvatarArgs) => {
+    try {
+      const formData = new FormData();
+
+      formData.append("files", file);
+      await axios.post(`api/user/upload-avatar`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      onSuccess?.();
+      return;
+    } catch {
+      onReject?.();
     }
   }
 );
